@@ -15,3 +15,9 @@ split_data/
 # OS files
 .DS_Store
 Thumbs.db
+
+#env file
+.env
+
+#node modules
+node_modules/
