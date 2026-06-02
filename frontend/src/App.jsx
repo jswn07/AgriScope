@@ -10,12 +10,13 @@ import Register from "./pages/Register"
 import Dashboard from "./pages/Dashboard"
 import ProtectedRoute from "./components/ProtectedRoute"
 import Navbar from "./components/Navbar"
+import Chatbot from "./pages/Chatbot"
 
 function App() {
   return (
     <BrowserRouter>
       <Navbar />
-      
+
       <Routes>
         <Route
           path="/"
@@ -37,6 +38,15 @@ function App() {
           element={
             <ProtectedRoute>
               <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/chatbot"
+          element={
+            <ProtectedRoute>
+              <Chatbot />
             </ProtectedRoute>
           }
         />
