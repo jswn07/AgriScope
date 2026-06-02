@@ -1,6 +1,6 @@
 import { useState } from "react"
-import { createUserWithEmailAndPassword } from "firebase/auth"
-import { auth } from "../services/firebase"
+import { registerUser } from "../services/authService"
+
 
 function Register() {
     const [email, setEmail] = useState("")
@@ -10,14 +10,11 @@ function Register() {
     async function handleRegister(e) {
         e.preventDefault()
         try {
-            const userCredential = await createUserWithEmailAndPassword(
-                auth,
-                email,
-                password
-            )
-            console.log(userCredential)
-            setMessage("User registered successfully")
-        } catch (error) {
+            await registerUser(email, password)
+            setMessage("User registered successfully!")
+        }
+
+        catch (error) {
             console.log(error)
             setMessage(error.message)
         }

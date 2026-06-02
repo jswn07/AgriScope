@@ -1,7 +1,6 @@
 import { useState } from "react"
-import { signInWithEmailAndPassword } from "firebase/auth"
-import { auth } from "../services/firebase"
 import { useNavigate } from "react-router-dom"
+import { loginUser } from "../services/authService"
 
 function Login() {
     const [email, setEmail] = useState("")
@@ -12,13 +11,7 @@ function Login() {
     async function handleLogin(e) {
         e.preventDefault()
         try {
-            const userCredential = await signInWithEmailAndPassword(
-                auth,
-                email,
-                password
-            )
-            console.log(userCredential)
-            setMessage("Login successful")
+            await loginUser(email, password)
             navigate("/dashboard")
             
         } catch (error) {
