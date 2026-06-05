@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from routes.auth import router as auth_router
 from routes.chatbot import router as chatbot_router
+from routes.prediction import router as prediction_router
 
 app = FastAPI()
 
@@ -22,3 +23,4 @@ def home():
 
 app.include_router(auth_router)
 app.include_router(chatbot_router)
+app.include_router(prediction_router)

@@ -33,6 +33,34 @@ function Navbar() {
           </>
         ) : (
           <>
+            <Link
+              to="/dashboard"
+              className="text-gray-700 hover:text-green-600"
+            >
+              Dashboard
+            </Link>
+
+            <Link
+              to="/chatbot"
+              className="text-gray-700 hover:text-green-600"
+            >
+              Chatbot
+            </Link>
+
+            <Link
+              to="/prediction"
+              className="text-gray-700 hover:text-green-600"
+            >
+              Prediction
+            </Link>
+
+            <Link
+              to="/history"
+              className="text-gray-700 hover:text-green-600"
+            >
+              History
+            </Link>
+
             <span className="font-medium text-gray-700">
               {user.email}
             </span>

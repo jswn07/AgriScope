@@ -11,6 +11,8 @@ import Dashboard from "./pages/Dashboard"
 import ProtectedRoute from "./components/ProtectedRoute"
 import Navbar from "./components/Navbar"
 import Chatbot from "./pages/Chatbot"
+import Prediction from "./pages/Prediction"
+import History from "./pages/History"
 
 function App() {
   return (
@@ -50,6 +52,25 @@ function App() {
             </ProtectedRoute>
           }
         />
+
+        <Route
+          path="/prediction"
+          element={
+            <ProtectedRoute>
+              <Prediction />
+            </ProtectedRoute>
+        }
+        />
+
+        <Route
+          path="/history"
+          element={
+          <ProtectedRoute>
+            <History />
+          </ProtectedRoute>
+          }
+        />
+        
       </Routes>
     </BrowserRouter>
   )

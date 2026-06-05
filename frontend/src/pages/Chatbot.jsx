@@ -1,9 +1,14 @@
 import { useState } from "react"
-import axios from "axios"
+import api from "../services/api"
+import { useContext } from "react"
+
+import { AuthContext } from "../context/AuthContext"
+import { saveChat } from "../services/databaseService"
 
 function Chatbot() {
   const [message, setMessage] = useState("")
   const [messages, setMessages] = useState([])
+  const { user } = useContext(AuthContext)
 
   async function sendMessage() {
     if (!message.trim()) return
@@ -16,8 +21,8 @@ function Chatbot() {
     setMessages((prev) => [...prev, userMessage])
 
     try {
-      const response = await axios.post(
-        "http://127.0.0.1:8000/chat",
+      const response = await api.post(
+        "/chat",
         {
           message
         }
@@ -29,6 +34,13 @@ function Chatbot() {
       }
 
       setMessages((prev) => [...prev, botMessage])
+
+      await saveChat({
+        userId: user.uid,
+        message,
+        response: response.data.response,
+        createdAt: new Date().toISOString()
+      })
 
       setMessage("")
     }
