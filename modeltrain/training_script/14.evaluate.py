@@ -7,7 +7,7 @@ model = tf.keras.models.load_model(
     os.path.join(
         BASE_DIR,
         "models",
-        "crop_model.keras"
+        "crop_model_phase1.keras"
     )
 )
 
