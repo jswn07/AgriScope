@@ -5,65 +5,102 @@ from sklearn.model_selection import train_test_split
 SOURCE = "dataset"
 DEST = "split_data"
 
+# =========================
+# CREATE OUTPUT FOLDERS
+# =========================
+
 for split in ["train", "val", "test"]:
-    os.makedirs(os.path.join(DEST, split), exist_ok=True)
 
-for crop in os.listdir(SOURCE):
+    os.makedirs(
+        os.path.join(DEST, split),
+        exist_ok=True
+    )
 
-    crop_path = os.path.join(SOURCE, crop)
+# =========================
+# PROCESS EACH CLASS
+# =========================
 
-    if not os.path.isdir(crop_path):
+for class_name in os.listdir(SOURCE):
+
+    class_path = os.path.join(
+        SOURCE,
+        class_name
+    )
+
+    # skip non-folders
+    if not os.path.isdir(class_path):
         continue
 
-    for disease in os.listdir(crop_path):
+    # collect images
+    images = [
 
-        disease_path = os.path.join(crop_path, disease)
+        os.path.join(class_path, img)
 
-        if not os.path.isdir(disease_path):
-            continue
+        for img in os.listdir(class_path)
 
-        # class name becomes crop+disease
-        class_name = f"{crop}_{disease}"
+        if img.lower().endswith(
+            ('.jpg', '.jpeg', '.png')
+        )
+    ]
 
-        images = [
-            os.path.join(disease_path, img)
-            for img in os.listdir(disease_path)
-            if img.lower().endswith(
-                ('.jpg','.jpeg','.png')
-            )
-        ]
+    # skip empty folders
+    if len(images) == 0:
+        continue
 
-        train_imgs, temp_imgs = train_test_split(
-            images,
-            test_size=0.30,
-            random_state=42
+    # =========================
+    # SPLIT DATA
+    # =========================
+
+    train_imgs, temp_imgs = train_test_split(
+        images,
+        test_size=0.30,
+        random_state=42,
+        shuffle=True
+    )
+
+    val_imgs, test_imgs = train_test_split(
+        temp_imgs,
+        test_size=0.50,
+        random_state=42,
+        shuffle=True
+    )
+
+    # =========================
+    # COPY FILES
+    # =========================
+
+    splits = {
+        "train": train_imgs,
+        "val": val_imgs,
+        "test": test_imgs
+    }
+
+    for split_name, split_imgs in splits.items():
+
+        target_dir = os.path.join(
+            DEST,
+            split_name,
+            class_name
         )
 
-        val_imgs, test_imgs = train_test_split(
-            temp_imgs,
-            test_size=0.50,
-            random_state=42
-        )
+        os.makedirs(target_dir, exist_ok=True)
 
-        for split_name, split_imgs in {
-            "train": train_imgs,
-            "val": val_imgs,
-            "test": test_imgs
-        }.items():
+        for img in split_imgs:
 
-            target_dir = os.path.join(
-                DEST,
-                split_name,
-                class_name
+            shutil.copy2(
+                img,
+                target_dir
             )
 
-            os.makedirs(target_dir, exist_ok=True)
+    # =========================
+    # PRINT COUNTS
+    # =========================
 
-            for img in split_imgs:
+    print(
+        f"{class_name} | "
+        f"Train: {len(train_imgs)} | "
+        f"Val: {len(val_imgs)} | "
+        f"Test: {len(test_imgs)}"
+    )
 
-                shutil.copy(
-                    img,
-                    target_dir
-                )
-
-print("Dataset split completed")
+print("\nDataset split completed!")
