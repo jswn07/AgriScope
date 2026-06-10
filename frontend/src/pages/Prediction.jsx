@@ -43,6 +43,8 @@ function Prediction() {
       await savePrediction({
         userId: user.uid,
         prediction: response.data.prediction,
+        rawClass: response.data.rawClass,
+        topPredictions: response.data.top_predictions,
         confidence: response.data.confidence,
         imageName: image.name,
         createdAt: new Date().toISOString()

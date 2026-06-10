@@ -72,6 +72,7 @@ def predict_image(image):
     return {
         
         "prediction": format_prediction(CLASS_NAMES[class_index]),
+        "rawClass": CLASS_NAMES[class_index],
         "confidence": round(confidence * 100, 2),
         "top_predictions": top_predictions
     }

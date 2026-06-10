@@ -13,6 +13,7 @@ import Navbar from "./components/Navbar"
 import Chatbot from "./pages/Chatbot"
 import Prediction from "./pages/Prediction"
 import History from "./pages/History"
+import PredictionDetails from "./pages/PredictionDetails"
 
 function App() {
   return (
@@ -67,6 +68,15 @@ function App() {
           element={
           <ProtectedRoute>
             <History />
+          </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/prediction/:id"
+          element={
+          <ProtectedRoute>
+            <PredictionDetails />
           </ProtectedRoute>
           }
         />
