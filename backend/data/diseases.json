@@ -1,0 +1,27 @@
+{
+  "tomato_early_blight": {
+    "name": "Tomato Early Blight",
+    "description": "A fungal disease affecting tomatoes.",
+    "symptoms": [
+      "Brown spots",
+      "Yellow leaves"
+    ],
+    "treatment": [
+      "Apply fungicide",
+      "Remove infected leaves"
+    ]
+  },
+
+  "potato_late_blight": {
+    "name": "Potato Late Blight",
+    "description": "A destructive potato disease.",
+    "symptoms": [
+      "Dark lesions",
+      "White growth"
+    ],
+    "treatment": [
+      "Destroy infected plants",
+      "Apply fungicide"
+    ]
+  }
+}

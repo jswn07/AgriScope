@@ -1,5 +1,6 @@
 from fastapi import APIRouter
 from pydantic import BaseModel
+from services.knowledge_service import search_disease
 
 router = APIRouter()
 
@@ -8,18 +9,18 @@ class ChatRequest(BaseModel):
 
 @router.post("/chat")
 def chat(request: ChatRequest):
+    disease = search_disease(request.message)
 
-    user_message = request.message.lower()
+    if disease:
+        response = f"""
+Disease: {disease['name']}
 
-    if "rice" in user_message:
-        response = "Rice requires warm temperatures and good irrigation."
+Description:
+{disease['description']}
 
-    elif "fertilizer" in user_message:
-        response = "Nitrogen-rich fertilizers are commonly used."
+Treatment:
+{", ".join(disease['treatment'])}
+"""
+        return {"response": response}
 
-    else:
-        response = "AGRIMAIN chatbot received your message."
-
-    return {
-        "response": response
-    }
+    return {"response": "I could not find information about that disease."}

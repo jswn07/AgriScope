@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react"
-import { useParams } from "react-router-dom"
+import { useParams, useNavigate } from "react-router-dom"
 import { getPredictionById } from "../services/databaseService"
 import diseaseData from "../data/diseaseData.json"
 
 function PredictionDetails() {
-  const disease = diseaseData[prediction.rawClass]
   const { id } = useParams()
+  const navigate = useNavigate()
   const [prediction, setPrediction] = useState(null)
 
   useEffect(() => {
@@ -19,6 +19,9 @@ function PredictionDetails() {
   if (!prediction) {
     return <div className="p-10">Loading...</div>
   }
+
+  // Safely look up disease data only AFTER prediction is loaded
+  const disease = diseaseData[prediction.rawClass]
 
   return (
     <div className="min-h-screen bg-gray-100 p-10">
@@ -55,6 +58,13 @@ function PredictionDetails() {
             </ul>
           </div>
         )}
+
+        <button
+          onClick={() => navigate(`/chatbot?disease=${prediction.prediction}`)}
+          className="bg-green-600 text-white px-4 py-2 rounded-lg mt-6 block"
+        >
+          Ask Assistant
+        </button>
       </div>
     </div>
   )

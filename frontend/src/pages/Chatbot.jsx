@@ -1,14 +1,25 @@
-import { useState } from "react"
+import { useState, useEffect, useContext } from "react"
 import api from "../services/api"
-import { useContext } from "react"
 
 import { AuthContext } from "../context/AuthContext"
 import { saveChat } from "../services/databaseService"
+import { useSearchParams } from "react-router-dom"
 
 function Chatbot() {
   const [message, setMessage] = useState("")
   const [messages, setMessages] = useState([])
   const { user } = useContext(AuthContext)
+
+  const [searchParams] = useSearchParams()
+  const disease = searchParams.get("disease")
+
+  useEffect(() => {
+    if (disease) {
+      setMessage(
+        `Tell me about ${disease}`
+      )
+    }
+  }, [disease])
 
   async function sendMessage() {
     if (!message.trim()) return
