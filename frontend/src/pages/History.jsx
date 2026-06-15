@@ -2,6 +2,7 @@ import { useEffect, useState, useContext } from "react"
 import { AuthContext } from "../context/AuthContext"
 import { getUserPredictions } from "../services/databaseService"
 import { Link } from "react-router-dom"
+import { formatDate } from "../utils/predictionUtils"
 
 function History() {
   const { user } = useContext(AuthContext)
@@ -28,6 +29,9 @@ function History() {
               </p>
               <p>
                 <strong>Confidence:</strong> {item.confidence}
+              </p>
+              <p className="text-sm text-gray-500">
+                {formatDate(item.createdAt)}
               </p>
             </div>
           </Link>
