@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react"
 import { AuthContext } from "../context/AuthContext"
 import { getDashboardStats } from "../services/dashboardService"
 import LoadingSpinner from "../components/common/LoadingSpinner"
+import StatCard from "../components/dashboard/StatCard"
 
 function Dashboard() {
   const { user } = useContext(AuthContext)
@@ -43,7 +44,7 @@ function Dashboard() {
       <h1 className="text-4xl font-bold mb-8">
         Dashboard
       </h1>
-      
+
       {error && (
         <div className="mb-6 bg-red-50 border border-red-200 text-red-600 p-4 rounded-xl">
           {error}
@@ -51,41 +52,29 @@ function Dashboard() {
       )}
 
       <div className="grid md:grid-cols-4 gap-6">
-        <div className="bg-white p-6 rounded-xl shadow-md">
-          <h3 className="font-semibold">
-            Predictions
-          </h3>
-          <p className="text-4xl font-bold text-green-600">
-            {stats.totalPredictions}
-          </p>
-        </div>
+        <StatCard
+          title="Predictions"
+          value={stats.totalPredictions}
+          color="text-green-600"
+        />
 
-        <div className="bg-white p-6 rounded-xl shadow-md">
-          <h3 className="font-semibold">
-            Chat Messages
-          </h3>
-          <p className="text-4xl font-bold text-blue-600">
-            {stats.totalChats}
-          </p>
-        </div>
+        <StatCard
+          title="Chat Messages"
+          value={stats.totalChats}
+          color="text-blue-600"
+        />
 
-        <div className="bg-white p-6 rounded-xl shadow-md">
-          <h3 className="font-semibold">
-            Avg Confidence
-          </h3>
-          <p className="text-4xl font-bold text-purple-600">
-            {stats.averageConfidence}%
-          </p>
-        </div>
+        <StatCard
+          title="Avg Confidence"
+          value={`${stats.averageConfidence}%`}
+          color="text-purple-600"
+        />
 
-        <div className="bg-white p-6 rounded-xl shadow-md">
-          <h3 className="font-semibold">
-            Most Common
-          </h3>
-          <p className="text-lg font-bold">
-            {stats.mostCommonDisease}
-          </p>
-        </div>
+        <StatCard
+          title="Most Common"
+          value={stats.mostCommonDisease}
+          color="text-lg font-bold"
+        />
       </div>
 
       <div className="mt-8 bg-white rounded-xl shadow-md p-6">
@@ -109,6 +98,32 @@ function Dashboard() {
               </div>
             </div>
           ))}
+      </div>
+
+      <div className="mt-8 bg-white rounded-xl shadow-md p-6">
+        <h2 className="text-2xl font-bold mb-4">
+          Most Predicted Diseases
+        </h2>
+        {(() => {
+          const counts = {}
+          stats.predictions?.forEach((item) => {
+            counts[item.prediction] = (counts[item.prediction] || 0) + 1
+          })
+          const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1])
+          return sorted.length > 0 ? (
+            sorted.map(([disease, count]) => (
+              <div
+                key={disease}
+                className="flex justify-between border-b last:border-none py-3"
+              >
+                <span>{disease}</span>
+                <span className="font-bold">{count}</span>
+              </div>
+            ))
+          ) : (
+            <p className="text-gray-500">No predictions yet.</p>
+          )
+        })()}
       </div>
     </div>
   )
