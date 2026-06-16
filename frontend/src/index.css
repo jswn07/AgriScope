@@ -49,7 +49,7 @@
 }
 
 :root {
-    --background: oklch(0.98 0.003 120);
+    --background: oklch(0.97 0.01 95);
     --foreground: oklch(0.28 0.02 140);
 
     --card: oklch(1 0 0);
@@ -64,7 +64,7 @@
     --secondary: oklch(0.82 0.03 120);
     --secondary-foreground: oklch(0.28 0.02 140);
 
-    --accent: oklch(0.60 0.03 200);
+    --accent: oklch(87.295% 0.03357 129.843);
     --accent-foreground: oklch(0.98 0 0);
 
     --muted: oklch(0.93 0.005 120);

@@ -5,7 +5,8 @@ import LoadingSpinner from "../components/common/LoadingSpinner"
 import StatCard from "../components/dashboard/StatCard"
 import PageHeader from "../components/common/PageHeader"
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
-import { Leaf, MessageSquare, Activity, TrendingUp } from "lucide-react"
+import { Leaf, MessageSquare, Activity, TrendingUp, Clock3, BarChart3 } from "lucide-react"
+import { Link } from "react-router-dom"
 
 function Dashboard() {
   const { user } = useContext(AuthContext)
@@ -61,58 +62,68 @@ function Dashboard() {
             title="Predictions"
             value={stats.totalPredictions}
             color="text-primary"
-            icon={<Leaf size={18} />}
+            icon={Leaf}
           />
 
           <StatCard
             title="Chat Messages"
             value={stats.totalChats}
             color="text-primary"
-            icon={<MessageSquare size={18} />}
+            icon={MessageSquare}
           />
 
           <StatCard
             title="Avg Confidence"
             value={`${stats.averageConfidence}%`}
             color="text-primary"
-            icon={<Activity size={18} />}
+            icon={Activity}
           />
 
           <StatCard
             title="Most Common"
             value={stats.mostCommonDisease}
             color="text-foreground"
-            icon={<TrendingUp size={18} />}
+            icon={TrendingUp}
           />
         </div>
 
         <Card className="mt-8 border-border shadow-sm">
           <CardHeader>
-            <CardTitle>Recent Predictions</CardTitle>
+            <div className="flex justify-between items-center">
+              <CardTitle className="flex items-center gap-2 text-xl">
+                <Clock3 size={20} className="text-primary" />
+                Recent Predictions
+              </CardTitle>
+              <Link
+                to="/history"
+                className="text-primary text-sm hover:underline"
+              >
+                View All
+              </Link>
+            </div>
           </CardHeader>
           <CardContent className="p-6">
             {stats.predictions?.length > 0 ? (
               stats.predictions.slice(0, 5).map((item, index) => (
                 <div
                   key={index}
-                  className="border-b last:border-none py-3"
+                  className="flex items-center justify-between py-4 border-b last:border-0"
                 >
-                  <div className="flex items-center justify-between">
-                    <span className="font-medium text-foreground">
-                      {item.prediction}
-                    </span>
-                    <span className="text-primary font-semibold">
-                      {item.confidence}%
-                    </span>
-                  </div>
+                  <span className="font-medium text-foreground">
+                    {item.prediction}
+                  </span>
+                  <span className="px-3 py-1 rounded-full bg-primary text-primary-foreground text-sm font-semibold">
+                    {item.confidence}%
+                  </span>
                 </div>
               ))
             ) : (
-              <div className="py-12 text-center">
-                <p className="text-muted-foreground">
-                  No predictions yet.
+              <div className="flex flex-col items-center py-16">
+                <Leaf className="w-12 h-12 text-primary mb-4" />
+                <p className="font-medium text-foreground">
+                  No predictions yet
                 </p>
-                <p className="text-sm text-muted-foreground mt-2">
+                <p className="text-base text-muted-foreground mt-2">
                   Upload a crop image to get started.
                 </p>
               </div>
@@ -122,7 +133,18 @@ function Dashboard() {
 
         <Card className="mt-8 border-border shadow-sm">
           <CardHeader>
-            <CardTitle>Most Predicted Diseases</CardTitle>
+            <div className="flex justify-between items-center">
+              <CardTitle className="flex items-center gap-2 text-xl">
+                <BarChart3 size={20} className="text-primary" />
+                Most Predicted Diseases
+              </CardTitle>
+              <Link
+                to="/history"
+                className="text-primary text-sm hover:underline"
+              >
+                View History
+              </Link>
+            </div>
           </CardHeader>
           <CardContent className="p-6">
             {(() => {
@@ -135,30 +157,23 @@ function Dashboard() {
                 sorted.map(([disease, count]) => (
                   <div
                     key={disease}
-                    className="flex justify-between items-center border-b last:border-none py-3"
+                    className="flex items-center justify-between py-4 border-b last:border-0"
                   >
-                    <span>{disease}</span>
-                    <span
-                      className="
-                        bg-accent
-                        text-accent-foreground
-                        px-3
-                        py-1
-                        rounded-full
-                        text-sm
-                        font-medium
-                      "
-                    >
+                    <span className="font-medium text-foreground">
+                      {disease}
+                    </span>
+                    <span className="h-9 w-9 flex items-center justify-center rounded-full bg-primary text-primary-foreground font-bold text-sm">
                       {count}
                     </span>
                   </div>
                 ))
               ) : (
-                <div className="py-12 text-center">
-                  <p className="text-muted-foreground">
-                    No predictions yet.
+                <div className="flex flex-col items-center py-16">
+                  <Leaf className="w-12 h-12 text-primary mb-4" />
+                  <p className="font-medium text-foreground">
+                    No predictions yet
                   </p>
-                  <p className="text-sm text-muted-foreground mt-2">
+                  <p className="text-base text-muted-foreground mt-2">
                     Upload a crop image to get started.
                   </p>
                 </div>
