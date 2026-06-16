@@ -3,6 +3,8 @@ import { AuthContext } from "../context/AuthContext"
 import { getDashboardStats } from "../services/dashboardService"
 import LoadingSpinner from "../components/common/LoadingSpinner"
 import StatCard from "../components/dashboard/StatCard"
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
+
 
 function Dashboard() {
   const { user } = useContext(AuthContext)
@@ -40,10 +42,20 @@ function Dashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 p-10">
-      <h1 className="text-4xl font-bold mb-8">
-        Dashboard
-      </h1>
+    <div
+      className="min-h-screen px-6 py-8"
+      style={{
+        backgroundColor: "#F6F0D7"
+      }}
+    >
+      <div className="mb-10">
+        <h1 className="text-4xl font-semibold tracking-tight text-[#2F3328]">
+          Dashboard
+        </h1>
+        <p className="mt-2 text-[#5C6452]">
+          Monitor predictions, disease trends and activity.
+        </p>
+      </div>
 
       {error && (
         <div className="mb-6 bg-red-50 border border-red-200 text-red-600 p-4 rounded-xl">
@@ -51,80 +63,99 @@ function Dashboard() {
         </div>
       )}
 
-      <div className="grid md:grid-cols-4 gap-6">
+      <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
         <StatCard
           title="Predictions"
           value={stats.totalPredictions}
-          color="text-green-600"
+          color="text-[#89986D]"
         />
 
         <StatCard
           title="Chat Messages"
           value={stats.totalChats}
-          color="text-blue-600"
+          color="text-[#89986D]"
         />
 
         <StatCard
           title="Avg Confidence"
           value={`${stats.averageConfidence}%`}
-          color="text-purple-600"
+          color="text-[#89986D]"
         />
 
         <StatCard
           title="Most Common"
           value={stats.mostCommonDisease}
-          color="text-lg font-bold"
+          color="text-[#2F3328]"
         />
       </div>
 
-      <div className="mt-8 bg-white rounded-xl shadow-md p-6">
-        <h2 className="text-2xl font-bold mb-4">
-          Recent Predictions
-        </h2>
-        {stats.predictions
-          ?.slice(0, 5)
-          .map((item, index) => (
-            <div
-              key={index}
-              className="border-b last:border-none py-3"
-            >
-              <div className="flex justify-between">
-                <span>
-                  {item.prediction}
-                </span>
-                <span>
-                  {item.confidence}%
-                </span>
-              </div>
-            </div>
-          ))}
-      </div>
-
-      <div className="mt-8 bg-white rounded-xl shadow-md p-6">
-        <h2 className="text-2xl font-bold mb-4">
-          Most Predicted Diseases
-        </h2>
-        {(() => {
-          const counts = {}
-          stats.predictions?.forEach((item) => {
-            counts[item.prediction] = (counts[item.prediction] || 0) + 1
-          })
-          const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1])
-          return sorted.length > 0 ? (
-            sorted.map(([disease, count]) => (
+      <Card className="mt-8 border-[#C5D89D]/40 shadow-sm">
+        <CardHeader>
+          <CardTitle>Recent Predictions</CardTitle>
+        </CardHeader>
+        <CardContent className="p-6">
+          {stats.predictions
+            ?.slice(0, 5)
+            .map((item, index) => (
               <div
-                key={disease}
-                className="flex justify-between border-b last:border-none py-3"
+                key={index}
+                className="border-b last:border-none py-3"
               >
-                <span>{disease}</span>
-                <span className="font-bold">{count}</span>
+                <div className="flex items-center justify-between">
+                  <span className="font-medium text-[#2F3328]">
+                    {item.prediction}
+                  </span>
+                  <span className="text-[#89986D] font-semibold">
+                    {item.confidence}%
+                  </span>
+                </div>
               </div>
-            ))
-          ) : (
-            <p className="text-gray-500">No predictions yet.</p>
-          )
-        })()}
-      </div>
+            ))}
+        </CardContent>
+      </Card>
+
+      <Card className="mt-8 border-[#C5D89D]/40 shadow-sm">
+        <CardHeader>
+          <CardTitle>Most Predicted Diseases</CardTitle>
+        </CardHeader>
+        <CardContent className="p-6">
+          {(() => {
+            const counts = {}
+            stats.predictions?.forEach((item) => {
+              counts[item.prediction] = (counts[item.prediction] || 0) + 1
+            })
+            const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1])
+            return sorted.length > 0 ? (
+              sorted.map(([disease, count]) => (
+                <div
+                  key={disease}
+                  className="flex justify-between items-center border-b last:border-none py-3"
+                >
+                  <span>{disease}</span>
+                  <span
+                    className="
+                      bg-[#C5D89D]
+                      px-3
+                      py-1
+                      rounded-full
+                      text-sm
+                      font-medium
+                    "
+                  >
+                    {count}
+                  </span>
+                </div>
+              ))
+            ) : (
+              <div className="py-10 text-center">
+                <p className="text-[#5C6452]">
+                  No predictions available yet.
+                </p>
+              </div>
+            )
+          })()}
+        </CardContent>
+      </Card>
     </div>
   )
 }
