@@ -27,7 +27,7 @@ function PredictionDetails() {
   const disease = diseaseData[prediction.rawClass]
 
   return (
-    <div className="min-h-screen bg-gray-100 p-10 space-y-6">
+    <div className="space-y-6">
       <PredictionReport
         prediction={prediction}
         disease={disease}

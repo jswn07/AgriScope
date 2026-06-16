@@ -4,14 +4,17 @@ import PageHeader from "../components/common/PageHeader"
 import api from "../services/api"
 import { AuthContext } from "../context/AuthContext"
 import { savePrediction } from "../services/databaseService"
+import { useNavigate } from "react-router-dom"
 
 function Prediction() {
   const [image, setImage] = useState(null)
   const [preview, setPreview] = useState(null)
   const [result, setResult] = useState(null)
+  const [savedPredictionId, setSavedPredictionId] = useState(null)
   const { user } = useContext(AuthContext)
   const [error, setError] = useState("")
   const [predicting, setPredicting] = useState(false)
+  const navigate = useNavigate()
 
   function handleImageChange(e) {
     const file = e.target.files[0]
@@ -19,6 +22,8 @@ function Prediction() {
 
     setImage(file)
     setPreview(URL.createObjectURL(file))
+    setResult(null) // Reset previous results when a new image is uploaded
+    setSavedPredictionId(null)
   }
 
   async function handlePredict() {
@@ -38,7 +43,7 @@ function Prediction() {
 
       setResult(response.data)
 
-      await savePrediction({
+      const predictionId = await savePrediction({
         userId: user.uid,
         prediction: response.data.prediction,
         rawClass: response.data.rawClass,
@@ -47,6 +52,9 @@ function Prediction() {
         imageName: image.name,
         createdAt: new Date().toISOString()
       })
+      
+      setSavedPredictionId(predictionId)
+      
     } catch (err) {
       console.error(err)
       setError(err.message || "Something went wrong during prediction.")
@@ -192,11 +200,32 @@ function Prediction() {
               </span>{" "}
               {result.confidence}%
             </p>
+
+            {savedPredictionId && (
+              <button
+                onClick={() => navigate(`/prediction/${savedPredictionId}`)}
+                className="
+                  mt-6
+                  w-full
+                  border
+                  border-primary
+                  text-primary
+                  py-3
+                  rounded-xl
+                  font-medium
+                  hover:bg-primary
+                  hover:text-primary-foreground
+                  transition
+                "
+              >
+                View Full Report
+              </button>
+            )}
           </div>
         )}
 
         {result?.top_predictions && (
-          <div className="mt-6 bg-white rounded-xl shadow-md p-6">
+          <div className="mt-6 bg-white rounded-xl shadow-md p-6 border">
             <div className="flex items-center gap-2 mb-6">
               <Sparkles
                 size={22}
@@ -210,8 +239,8 @@ function Prediction() {
             {result.top_predictions.map((item, index) => (
               <div key={index} className="mb-4">
                 <div className="flex justify-between mb-1">
-                  <span>{item.class}</span>
-                  <span>{item.confidence}%</span>
+                  <span className="font-medium">{item.class}</span>
+                  <span className="font-medium text-primary">{item.confidence}%</span>
                 </div>
                 <div
                   className="

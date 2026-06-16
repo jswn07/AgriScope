@@ -3,7 +3,8 @@ import { db } from "./firebase"
 
 
 export async function savePrediction(data) {
-  await addDoc(collection(db, "predictions"), data)
+  const docRef = await addDoc(collection(db, "predictions"), data)
+  return docRef.id
 }
 
 export async function saveChat(data) {

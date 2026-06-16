@@ -1,53 +1,77 @@
+import { CheckCircle, Stethoscope, Pill, Shield } from "lucide-react"
+
 function PredictionReport({ prediction, disease }) {
   return (
-    <div className="bg-white rounded-xl shadow-md p-6">
-      <h2 className="text-3xl font-bold mb-4">
-        {prediction.prediction}
-      </h2>
+    <div className="bg-card border rounded-3xl p-8">
+      <div className="mb-8">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary mb-4">
+          <CheckCircle size={16} />
+          Prediction Complete
+        </div>
 
-      <p className="mb-4">
-        Confidence: {prediction.confidence}%
-      </p>
+        <h1 className="text-4xl font-black mb-4">
+          {prediction.prediction}
+        </h1>
 
-      <h3 className="font-bold mb-2">
-        Description
-      </h3>
-      <p className="mb-4">
-        {disease?.description}
-      </p>
+        <div className="inline-flex px-4 py-2 rounded-full bg-primary text-primary-foreground font-semibold">
+          {prediction.confidence}% Confidence
+        </div>
+      </div>
 
-      <h3 className="font-bold mb-2">
-        Symptoms
-      </h3>
-      <ul className="list-disc ml-6 mb-4">
-        {disease?.symptoms?.map((item, index) => (
-          <li key={index}>
-            {item}
-          </li>
-        ))}
-      </ul>
+      <div className="bg-muted/30 rounded-2xl p-6 mb-6">
+        <h2 className="text-xl font-bold mb-3">Description</h2>
+        <p className="leading-7">{disease?.description}</p>
+      </div>
 
-      <h3 className="font-bold mb-2">
-        Treatment
-      </h3>
-      <ul className="list-disc ml-6 mb-4">
-        {disease?.treatment?.map((item, index) => (
-          <li key={index}>
-            {item}
-          </li>
-        ))}
-      </ul>
+      <div className="grid md:grid-cols-2 gap-6">
+        <div className="bg-card border rounded-2xl p-6">
+          <div className="flex items-center gap-2 mb-4">
+            <Stethoscope size={20} className="text-primary" />
+            <h2 className="font-bold text-xl">Symptoms</h2>
+          </div>
 
-      <h3 className="font-bold mb-2">
-        Prevention
-      </h3>
-      <ul className="list-disc ml-6">
-        {disease?.prevention?.map((item, index) => (
-          <li key={index}>
-            {item}
-          </li>
-        ))}
-      </ul>
+          <ul className="space-y-3">
+            {disease?.symptoms?.map((item, index) => (
+              <li key={index} className="flex gap-3">
+                <span className="text-primary">✓</span>
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="bg-card border rounded-2xl p-6">
+          <div className="flex items-center gap-2 mb-4">
+            <Pill size={20} className="text-primary" />
+            <h2 className="font-bold text-xl">Treatment</h2>
+          </div>
+
+          <ul className="space-y-3">
+            {disease?.treatment?.map((item, index) => (
+              <li key={index} className="flex gap-3">
+                <span className="text-primary">•</span>
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+
+      <div className="mt-6 bg-card border rounded-2xl p-6">
+        <div className="flex items-center gap-2 mb-4">
+          <Shield size={20} className="text-primary" />
+          <h2 className="font-bold text-xl">Prevention</h2>
+        </div>
+
+        <ul className="space-y-3">
+          {disease?.prevention?.map((item, index) => (
+            <li key={index} className="flex gap-3">
+              <span className="text-primary">✓</span>
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   )
 }
