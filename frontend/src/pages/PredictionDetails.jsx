@@ -4,8 +4,8 @@ import { getPredictionById } from "../services/databaseService"
 import PredictionReport from "../components/prediction/PredictionReport"
 import diseaseData from "../data/diseaseData"
 import { formatDate, getSeverity } from "../utils/predictionUtils"
+import { getConfidenceColor } from "../utils/confidenceUtils"
 import { generateDiseaseReport } from "../utils/pdfUtils"
-
 
 function PredictionDetails() {
   const { id } = useParams()
@@ -28,34 +28,69 @@ function PredictionDetails() {
 
   return (
     <div className="space-y-6">
+      <div>
+        <h1 className="text-5xl font-black tracking-tight">Disease Report</h1>
+        <p className="mt-2 text-lg text-muted-foreground">
+          Detailed analysis and treatment guidance.
+        </p>
+      </div>
+
+      <button
+        onClick={() => navigate("/history")}
+        className="border rounded-xl px-4 py-2 hover:bg-accent transition"
+      >
+        ← Back to History
+      </button>
+
       <PredictionReport
         prediction={prediction}
         disease={disease}
       />
 
-      <div className="mt-6 bg-white rounded-xl shadow-md p-6">
-        <p>
-          <strong>Reliability:</strong> {getSeverity(prediction.confidence)}
-        </p>
-        <p className="mt-2">
-          <strong>Date:</strong> {formatDate(prediction.createdAt)}
-        </p>
-        <p className="mt-2">
-          <strong>Uploaded:</strong> {prediction.imageName}
-        </p>
+      <div className="bg-card border rounded-3xl p-6">
+        <div className="flex flex-wrap items-center gap-3 mb-6">
+          <span className={`px-4 py-2 rounded-full font-semibold ${getConfidenceColor(prediction.confidence)}`}>
+            {getSeverity(prediction.confidence)}
+          </span>
+
+          <span className="px-4 py-2 rounded-full bg-accent text-foreground">
+            {prediction.confidence}%
+          </span>
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-6">
+          <div>
+            <p className="text-sm text-muted-foreground">Prediction Date</p>
+            <p className="font-semibold">{formatDate(prediction.createdAt)}</p>
+          </div>
+
+          <div>
+            <p className="text-sm text-muted-foreground">Uploaded Image</p>
+            <p className="font-semibold">{prediction.imageName}</p>
+          </div>
+        </div>
       </div>
 
       <div className="bg-white p-6 rounded-xl shadow-md">
-        <button
-          onClick={() => navigate(`/chatbot?disease=${prediction.prediction}`)}
-          className="bg-green-600 text-white px-4 py-2 rounded-lg block w-full sm:w-auto text-center"
-        >
-          Ask Assistant
-        </button>
+        <div className="flex flex-wrap gap-4">
+          <button
+            onClick={() => navigate(`/chatbot?disease=${prediction.prediction}`)}
+            className="bg-primary text-primary-foreground px-6 py-3 rounded-2xl font-semibold hover:opacity-90 transition"
+          >
+            Ask AI Assistant
+          </button>
+
+          <button
+            onClick={() => generateDiseaseReport(prediction, disease)}
+            className="bg-outline border px-6 py-3 rounded-2xl font-semibold hover:bg-muted transition"
+          >
+            Download PDF Report
+          </button>
+        </div>
 
         {prediction.topPredictions && (
           <div className="mt-6 border-t pt-6">
-            <h2 className="text-2xl font-bold mb-4">Model Confidence Breakdown</h2>
+            <h2 className="text-3xl font-black mb-6">Model Confidence Breakdown</h2>
             {prediction.topPredictions.map((item, index) => (
               <div key={index} className="mb-4">
                 <div className="flex justify-between mb-1">
@@ -64,7 +99,7 @@ function PredictionDetails() {
                 </div>
                 <div className="w-full bg-gray-200 rounded-full h-3">
                   <div
-                    className="bg-blue-600 h-3 rounded-full"
+                    className="bg-primary h-3 rounded-full"
                     style={{ width: `${item.confidence}%` }}
                   />
                 </div>
@@ -73,9 +108,6 @@ function PredictionDetails() {
           </div>
         )}
       </div>
-
-      
-
     </div>
   )
 }

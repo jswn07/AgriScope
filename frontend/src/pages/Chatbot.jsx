@@ -1,18 +1,24 @@
-import { useState, useEffect, useContext } from "react"
+import { useState, useEffect, useContext, useRef } from "react"
+import { useSearchParams } from "react-router-dom"
 import api from "../services/api"
 import { AuthContext } from "../context/AuthContext"
 import { saveChat } from "../services/databaseService"
-import { useSearchParams } from "react-router-dom"
-
 
 function Chatbot() {
   const [message, setMessage] = useState("")
-  const [messages, setMessages] = useState([])
+  const [messages, setMessages] = useState([
+    {
+      sender: "bot",
+      text: "Hello! I can help explain crop diseases, treatments and prevention methods."
+    }
+  ])
   const { user } = useContext(AuthContext)
   const [error, setError] = useState("")
+  const [loading, setLoading] = useState(false)
 
   const [searchParams] = useSearchParams()
   const disease = searchParams.get("disease")
+  const bottomRef = useRef(null)
 
   useEffect(() => {
     if (disease) {
@@ -20,9 +26,14 @@ function Chatbot() {
     }
   }, [disease])
 
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" })
+  }, [messages])
+
   async function sendMessage() {
     if (!message.trim()) return
     setError("")
+    setLoading(true)
 
     const userMessage = {
       sender: "user",
@@ -52,51 +63,93 @@ function Chatbot() {
     } catch (err) {
       console.error(err)
       setError(err.message || "Something went wrong.")
+    } finally {
+      setLoading(false)
     }
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 p-10">
-      <div className="max-w-2xl mx-auto bg-white rounded-xl shadow-lg p-6">
-        <h1 className="text-3xl font-bold mb-6">AGRIMAIN Chatbot</h1>
+    <div className="space-y-6">
+      <div className="max-w-4xl mx-auto bg-card border rounded-3xl p-6 h-[calc(100vh-120px)] flex flex-col overflow-hidden">
+        <div>
+          <h1 className="text-3xl font-black tracking-tight">Agri Assistant</h1>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Ask about diseases, symptoms, treatment and prevention.
+          </p>
+        </div>
 
-        <div className="h-96 overflow-y-auto border rounded-lg p-4 mb-4 bg-gray-50">
+        {disease && (
+          <div className="mt-4 bg-primary/10 text-primary px-4 py-3 rounded-xl">
+            Discussing: {disease}
+          </div>
+        )}
+
+        <div className="flex-1 overflow-y-auto border rounded-3xl p-6 bg-muted/20 my-4">
           {messages.map((msg, index) => (
             <div
               key={index}
               className={`mb-4 flex ${msg.sender === "user" ? "justify-end" : "justify-start"}`}
             >
               <div
-                className={`px-4 py-2 rounded-lg max-w-xs ${
-                  msg.sender === "user" ? "bg-green-600 text-white" : "bg-gray-300"
+                className={`px-4 py-3 rounded-2xl max-w-2xl leading-relaxed ${
+                  msg.sender === "user"
+                    ? "bg-primary text-primary-foreground"
+                    : "bg-muted"
                 }`}
               >
                 {msg.text}
               </div>
             </div>
           ))}
+          <div ref={bottomRef} />
         </div>
 
         {error && (
-          <p className="text-red-500 mb-4 font-medium">
+          <p className="text-red-500 font-medium mb-4">
             {error}
           </p>
         )}
 
-        <div className="flex gap-4">
+        <div className="flex gap-3 pt-3 border-t">
           <input
             type="text"
             placeholder="Ask something..."
             value={message}
             onChange={(e) => setMessage(e.target.value)}
-            className="flex-1 border rounded-lg p-3"
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                sendMessage()
+              }
+            }}
+            className="flex-1 border rounded-2xl px-5 py-4 text-base bg-background focus:outline-none focus:ring-2 focus:ring-primary"
           />
-
           <button
+            disabled={loading}
             onClick={sendMessage}
-            className="bg-green-600 text-white px-6 rounded-lg"
+            className="bg-primary text-primary-foreground px-8 rounded-2xl font-semibold hover:opacity-90 transition disabled:opacity-50"
           >
-            Send
+            {loading ? "Thinking..." : "Send"}
+          </button>
+        </div>
+
+        <div className="flex flex-wrap gap-2 mt-4">
+          <button
+            onClick={() => setMessage("What causes tomato blight?")}
+            className="border rounded-full px-3 py-1 text-sm hover:bg-accent transition"
+          >
+            Causes
+          </button>
+          <button
+            onClick={() => setMessage("How can I treat this disease?")}
+            className="border rounded-full px-3 py-1 text-sm hover:bg-accent transition"
+          >
+            Treatment
+          </button>
+          <button
+            onClick={() => setMessage("How can I prevent this disease?")}
+            className="border rounded-full px-3 py-1 text-sm hover:bg-accent transition"
+          >
+            Prevention
           </button>
         </div>
       </div>

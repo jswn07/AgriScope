@@ -12,15 +12,26 @@ function PredictionReport({ prediction, disease }) {
         <h1 className="text-4xl font-black mb-4">
           {prediction.prediction}
         </h1>
+        
+        <p className="text-muted-foreground mb-4">
+          {prediction.rawClass}
+        </p>
 
-        <div className="inline-flex px-4 py-2 rounded-full bg-primary text-primary-foreground font-semibold">
-          {prediction.confidence}% Confidence
+        <div className="flex flex-wrap gap-3">
+          <div className="px-4 py-2 rounded-full bg-primary text-primary-foreground font-semibold">
+            {prediction.confidence}% Confidence
+          </div>
+          <div className="px-4 py-2 rounded-full bg-accent text-foreground font-semibold">
+            AI Diagnosis
+          </div>
         </div>
       </div>
 
       <div className="bg-muted/30 rounded-2xl p-6 mb-6">
         <h2 className="text-xl font-bold mb-3">Description</h2>
-        <p className="leading-7">{disease?.description}</p>
+        <p className="leading-8 text-base text-muted-foreground">
+          {disease?.description}
+        </p>
       </div>
 
       <div className="grid md:grid-cols-2 gap-6">
@@ -32,7 +43,7 @@ function PredictionReport({ prediction, disease }) {
 
           <ul className="space-y-3">
             {disease?.symptoms?.map((item, index) => (
-              <li key={index} className="flex gap-3">
+              <li key={index} className="flex gap-3 p-3 rounded-xl bg-muted/30">
                 <span className="text-primary">✓</span>
                 <span>{item}</span>
               </li>
@@ -48,7 +59,7 @@ function PredictionReport({ prediction, disease }) {
 
           <ul className="space-y-3">
             {disease?.treatment?.map((item, index) => (
-              <li key={index} className="flex gap-3">
+              <li key={index} className="flex gap-3 p-3 rounded-xl bg-muted/30">
                 <span className="text-primary">•</span>
                 <span>{item}</span>
               </li>
@@ -65,7 +76,7 @@ function PredictionReport({ prediction, disease }) {
 
         <ul className="space-y-3">
           {disease?.prevention?.map((item, index) => (
-            <li key={index} className="flex gap-3">
+            <li key={index} className="flex gap-3 p-3 rounded-xl bg-muted/30">
               <span className="text-primary">✓</span>
               <span>{item}</span>
             </li>
