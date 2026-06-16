@@ -92,7 +92,7 @@ function Sidebar() {
             {user?.email?.split("@")[0]}
           </p>
           <p className="text-sm text-muted-foreground truncate">
-            {user?.email}
+            Member
           </p>
         </div>
 
