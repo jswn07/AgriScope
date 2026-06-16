@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom"
+import { Link, NavLink } from "react-router-dom"
 import { useContext } from "react"
 import { AuthContext } from "../../context/AuthContext"
 
@@ -6,73 +6,150 @@ function Navbar() {
   const { user, logout } = useContext(AuthContext)
 
   return (
-    <nav className="bg-white shadow-md px-8 py-4 flex justify-between items-center">
-      <Link
-        to="/"
-        className="text-2xl font-bold text-green-600"
-      >
-        AGRIMAIN
-      </Link>
+    <nav className="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-[#C5D89D]/40">
+      <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+        
+        <Link
+          to="/"
+          className="text-3xl font-bold tracking-tight text-foreground"
+        >
+          AgriScope
+        </Link>
 
-      <div className="flex items-center gap-4">
         {!user ? (
-          <>
+          <div className="flex items-center gap-3">
             <Link
               to="/login"
-              className="text-gray-700 hover:text-green-600"
+              className="text-[#5C6452] hover:text-[#89986D] transition-colors"
             >
               Login
             </Link>
 
             <Link
               to="/register"
-              className="bg-green-600 text-white px-4 py-2 rounded-lg"
+              className="bg-[#89986D] text-white px-4 py-2 rounded-lg hover:opacity-90 transition"
             >
               Register
             </Link>
-          </>
+          </div>
         ) : (
-          <>
-            <Link
+          <div className="flex items-center gap-6">
+            <NavLink
               to="/dashboard"
-              className="text-gray-700 hover:text-green-600"
+              className={({ isActive }) =>
+                isActive
+                  ? `
+                    text-[#2F3328]
+                    font-semibold
+                    border-b-2
+                    border-[#89986D]
+                    pb-1
+                  `
+                  : `
+                    text-[#5C6452]
+                    hover:text-[#2F3328]
+                    transition-colors
+                  `
+              }
             >
               Dashboard
-            </Link>
+            </NavLink>
 
-            <Link
-              to="/chatbot"
-              className="text-gray-700 hover:text-green-600"
-            >
-              Chatbot
-            </Link>
-
-            <Link
+            <NavLink
               to="/prediction"
-              className="text-gray-700 hover:text-green-600"
+              className={({ isActive }) =>
+                isActive
+                  ? `
+                    text-[#2F3328]
+                    font-semibold
+                    border-b-2
+                    border-[#89986D]
+                    pb-1
+                  `
+                  : `
+                    text-[#5C6452]
+                    hover:text-[#2F3328]
+                    transition-colors
+                  `
+              }
             >
               Prediction
-            </Link>
+            </NavLink>
 
-            <Link
+            <NavLink
               to="/history"
-              className="text-gray-700 hover:text-green-600"
+              className={({ isActive }) =>
+                isActive
+                  ? `
+                    text-[#2F3328]
+                    font-semibold
+                    border-b-2
+                    border-[#89986D]
+                    pb-1
+                  `
+                  : `
+                    text-[#5C6452]
+                    hover:text-[#2F3328]
+                    transition-colors
+                  `
+              }
             >
               History
-            </Link>
+            </NavLink>
 
-            <span className="font-medium text-gray-700">
-              {user.email}
-            </span>
+            <NavLink
+              to="/chatbot"
+              className={({ isActive }) =>
+                isActive
+                  ? `
+                    text-[#2F3328]
+                    font-semibold
+                    border-b-2
+                    border-[#89986D]
+                    pb-1
+                  `
+                  : `
+                    text-[#5C6452]
+                    hover:text-[#2F3328]
+                    transition-colors
+                  `
+              }
+            >
+              Chatbot
+            </NavLink>
+
+            <div
+              className="
+                px-3
+                py-1
+                rounded-full
+                bg-[#C5D89D]/40
+                text-sm
+                font-medium
+                text-[#2F3328]
+              "
+            >
+              {user.email.split("@")[0]}
+            </div>
 
             <button
               onClick={logout}
-              className="bg-red-500 text-white px-4 py-2 rounded-lg"
+              className="
+                border
+                border-[#9CAB84]
+                text-[#2F3328]
+                px-4
+                py-2
+                rounded-lg
+                hover:bg-[#C5D89D]/20
+                transition-all
+              "
             >
               Logout
             </button>
-          </>
+          </div>
         )}
+
       </div>
     </nav>
   )

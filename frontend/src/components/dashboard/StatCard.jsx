@@ -18,7 +18,7 @@ function StatCard({ title, value, color }) {
           {title}
         </p>
 
-        <h3 className={`text-3xl font-semibold tracking-tight ${color}`}>
+        <h3 className={`text-4xl font-semibold tracking-tight ${color}`}>
           {value}
         </h3>
       </CardContent>
