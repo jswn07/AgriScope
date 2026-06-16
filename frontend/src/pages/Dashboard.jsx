@@ -3,6 +3,7 @@ import { AuthContext } from "../context/AuthContext"
 import { getDashboardStats } from "../services/dashboardService"
 import LoadingSpinner from "../components/common/LoadingSpinner"
 import StatCard from "../components/dashboard/StatCard"
+import PageHeader from "../components/common/PageHeader"
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
 import { Leaf, MessageSquare, Activity, TrendingUp } from "lucide-react"
 
@@ -42,16 +43,12 @@ function Dashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div>
       <div className="max-w-7xl mx-auto px-6 py-8">
-        <div className="mb-10">
-          <h1 className="text-4xl font-semibold tracking-tight text-foreground">
-            Dashboard
-          </h1>
-          <p className="mt-2 text-muted-foreground">
-            Monitor predictions, disease trends and activity.
-          </p>
-        </div>
+        <PageHeader
+          title="Dashboard"
+          description="Monitor predictions, disease trends, and activity."
+        />
 
         {error && (
           <div className="mb-6 bg-red-50 border border-red-200 text-red-600 p-4 rounded-xl">

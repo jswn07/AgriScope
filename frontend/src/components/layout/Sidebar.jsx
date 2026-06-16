@@ -26,10 +26,10 @@ function Sidebar() {
   ]
 
   return (
-    <aside className="w-64 border-r bg-card min-h-screen">
+    <aside className="w-72 border-r bg-card min-h-screen">
       <div className="p-6">
         <h1 className="text-3xl font-black tracking-tight text-foreground">
-          Agri<span className="text-primary">Main</span>
+          AgriMain
         </h1>
       </div>
 

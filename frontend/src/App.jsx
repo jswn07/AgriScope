@@ -1,8 +1,4 @@
-import {
-  BrowserRouter,
-  Routes,
-  Route
-} from "react-router-dom"
+import { BrowserRouter, Routes, Route } from "react-router-dom"
 
 import Home from "./pages/Home"
 import Login from "./pages/Login"
@@ -14,73 +10,76 @@ import Chatbot from "./pages/Chatbot"
 import Prediction from "./pages/Prediction"
 import History from "./pages/History"
 import PredictionDetails from "./pages/PredictionDetails"
+import MainLayout from "./layouts/MainLayout"
 
 function App() {
   return (
     <BrowserRouter>
-      <Navbar />
-
       <Routes>
+
         <Route
           path="/"
-          element={<Home />}
+          element={
+            <>
+              <Navbar />
+              <Home />
+            </>
+          }
         />
 
         <Route
           path="/login"
-          element={<Login />}
+          element={
+            <>
+              <Navbar />
+              <Login />
+            </>
+          }
         />
 
         <Route
           path="/register"
-          element={<Register />}
+          element={
+            <>
+              <Navbar />
+              <Register />
+            </>
+          }
         />
 
         <Route
-          path="/dashboard"
           element={
             <ProtectedRoute>
-              <Dashboard />
+              <MainLayout />
             </ProtectedRoute>
           }
-        />
+        >
+          <Route
+            path="/dashboard"
+            element={<Dashboard />}
+          />
 
-        <Route
-          path="/chatbot"
-          element={
-            <ProtectedRoute>
-              <Chatbot />
-            </ProtectedRoute>
-          }
-        />
+          <Route
+            path="/prediction"
+            element={<Prediction />}
+          />
 
-        <Route
-          path="/prediction"
-          element={
-            <ProtectedRoute>
-              <Prediction />
-            </ProtectedRoute>
-        }
-        />
+          <Route
+            path="/history"
+            element={<History />}
+          />
 
-        <Route
-          path="/history"
-          element={
-          <ProtectedRoute>
-            <History />
-          </ProtectedRoute>
-          }
-        />
+          <Route
+            path="/chatbot"
+            element={<Chatbot />}
+          />
 
-        <Route
-          path="/prediction/:id"
-          element={
-          <ProtectedRoute>
-            <PredictionDetails />
-          </ProtectedRoute>
-          }
-        />
-        
+          <Route
+            path="/prediction/:id"
+            element={<PredictionDetails />}
+          />
+        </Route>
+
       </Routes>
     </BrowserRouter>
   )
