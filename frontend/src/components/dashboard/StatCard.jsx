@@ -8,7 +8,7 @@ function StatCard({ title, value, icon: Icon }) {
           <Icon size={18} className="text-primary" />
           <p className="text-sm text-muted-foreground">{title}</p>
         </div>
-        <h3 className="text-4xl font-black text-foreground break-words">{value}</h3>
+        <h3 className="text-4xl font-medium text-foreground break-words">{value}</h3>
       </CardContent>
     </Card>
   )

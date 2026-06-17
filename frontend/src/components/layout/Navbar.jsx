@@ -11,7 +11,7 @@ function Navbar() {
         
         <Link
           to="/"
-          className="text-3xl font-bold tracking-tight text-foreground"
+          className="text-4xl font-extrabold tracking-tight text-foreground"
         >
           AgriScope
         </Link>
@@ -53,69 +53,6 @@ function Navbar() {
               }
             >
               Dashboard
-            </NavLink>
-
-            <NavLink
-              to="/prediction"
-              className={({ isActive }) =>
-                isActive
-                  ? `
-                    text-[#2F3328]
-                    font-semibold
-                    border-b-2
-                    border-[#89986D]
-                    pb-1
-                  `
-                  : `
-                    text-[#5C6452]
-                    hover:text-[#2F3328]
-                    transition-colors
-                  `
-              }
-            >
-              Prediction
-            </NavLink>
-
-            <NavLink
-              to="/history"
-              className={({ isActive }) =>
-                isActive
-                  ? `
-                    text-[#2F3328]
-                    font-semibold
-                    border-b-2
-                    border-[#89986D]
-                    pb-1
-                  `
-                  : `
-                    text-[#5C6452]
-                    hover:text-[#2F3328]
-                    transition-colors
-                  `
-              }
-            >
-              History
-            </NavLink>
-
-            <NavLink
-              to="/chatbot"
-              className={({ isActive }) =>
-                isActive
-                  ? `
-                    text-[#2F3328]
-                    font-semibold
-                    border-b-2
-                    border-[#89986D]
-                    pb-1
-                  `
-                  : `
-                    text-[#5C6452]
-                    hover:text-[#2F3328]
-                    transition-colors
-                  `
-              }
-            >
-              Chatbot
             </NavLink>
 
             <div

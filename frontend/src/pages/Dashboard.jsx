@@ -45,7 +45,7 @@ function Dashboard() {
 
   return (
     <div>
-      <div className="max-w-7xl mx-auto px-6 py-8">
+      <div className="max-w-7xl mx-auto px-6 pt-4 pb-8">
         <PageHeader
           title="Dashboard"
           description="Monitor predictions, disease trends, and activity."

@@ -2,7 +2,7 @@ import { Link } from "react-router-dom"
 
 function Home() {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="py-32min-h-[85vh] bg-background">
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center overflow-hidden">
         {/* Background Image */}
@@ -47,7 +47,7 @@ function Home() {
             </div>
 
             <div>
-              <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl p-8 shadow-2xl">
+              <div className="max-w-lg bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl p-5 shadow-2xl">
                 <h3 className="font-bold text-2xl mb-6 text-white">Sample Analysis</h3>
 
                 <div className="bg-white rounded-2xl p-5 mb-4">

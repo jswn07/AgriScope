@@ -2,6 +2,7 @@ import { useContext } from "react"
 import { AuthContext } from "../../context/AuthContext"
 import { LayoutDashboard, Leaf, History, MessageSquare } from "lucide-react"
 import { NavLink } from "react-router-dom"
+import { Link } from "react-router-dom"
 
 function Sidebar() {
   const { user, logout } = useContext(AuthContext)
@@ -32,9 +33,11 @@ function Sidebar() {
   return (
     <aside className="w-64 border-r bg-card min-h-screen flex flex-col">
       <div className="p-6 pb-8">
-        <h1 className="text-4xl font-black tracking-tight">
+        <Link to="/">
+        <h1 className="text-4xl font-extrabold tracking-tight">
           AgriScope
         </h1>
+        </Link>
       </div>
 
       <nav className="px-3">
