@@ -33,7 +33,7 @@ function Sidebar() {
     <aside className="w-64 border-r bg-card min-h-screen flex flex-col">
       <div className="p-6 pb-8">
         <h1 className="text-4xl font-black tracking-tight">
-          AgriMain
+          AgriScope
         </h1>
       </div>
 
