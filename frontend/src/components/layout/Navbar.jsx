@@ -11,7 +11,7 @@ function Navbar() {
         
         <Link
           to="/"
-          className="text-4xl font-extrabold tracking-tight text-foreground"
+          className="text-4xl font-bold tracking-tight text-foreground"
         >
           AgriScope
         </Link>
