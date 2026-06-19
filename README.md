@@ -299,9 +299,9 @@ This project is licensed under the MIT License.
 
 ## 👨‍💻 Author
 
-**Your Name**
+**Jeswin Jaimon**
 
-Final Year B.Tech Computer Science Student
+B.Tech Computer Science Student
 
 Passionate about Artificial Intelligence, Machine Learning, and Full-Stack Development.
 
